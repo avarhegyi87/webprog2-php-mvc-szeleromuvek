@@ -5,9 +5,9 @@ const USER = 'root';
 const PASSWORD = '';
 
 class Database {
-	private static $connection = FALSE;
+	private static PDO|bool $connection = FALSE;
 
-	public static function getConnection() {
+	public static function getConnection(): PDO|bool {
 		if (!self::$connection) {
 			self::$connection = new PDO('mysql:host=' . HOST . ';dbname=' . DATABASE, USER, PASSWORD,
 										array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
@@ -16,5 +16,3 @@ class Database {
 		return self::$connection;
 	}
 }
-
-?>

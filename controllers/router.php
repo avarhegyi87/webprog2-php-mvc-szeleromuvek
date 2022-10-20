@@ -13,7 +13,6 @@ include(SERVER_ROOT . 'includes/menu.inc.php');
 // megfelelő lesz, első eleme a megtekinteni kívánt oldal neve.
 
 $page = "nyitolap";
-$subpage = "";
 $vars = array();
 
 $request = $_SERVER['QUERY_STRING'];
@@ -22,9 +21,7 @@ if ($request != "") {
 	$params = explode('/', $request);
 	$page = array_shift($params); // a kért oldal neve
 
-	if (array_key_exists($page, Menu::$menu))
-
-		$vars += $_POST;
+	$vars += $_POST;
 
 	foreach ($params as $p) {
 		$vars[] = $p;
@@ -62,5 +59,3 @@ spl_autoload_register(function ($className) {
 });
 
 $controller->main($vars);
-
-?>

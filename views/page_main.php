@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="hu-hu">
 <head>
     <meta charset="utf-8">
     <title>MVC - PHP</title>
@@ -8,18 +8,18 @@
 </head>
 <body>
 <header>
-    <div id="user"><em><?= $_SESSION['userlastname'] . " " . $_SESSION['userfirstname'] ?></em></div>
-    <h1 class="header">Web-programozás II - MVC alkalmazás</h1>
+    <div id="user"><em><?= ($_SESSION['userid'] != 0 || !isset($_SESSION['userid'])) ? $_SESSION['userlastname'] . " " . $_SESSION['userfirstname'] ?></em></div>
+    <h1 class="header">Web-programozás II - MVC alkalmazás - Szélerőművek</h1>
 </header>
 <nav>
 	<?php echo Menu::getMenu($viewData['selectedItems']); ?>
 </nav>
 <aside>
-    <p>Phasellus wisi nulla...</p>
+    <p>This is a text in an aside section</p>
 </aside>
 <section>
 	<?php if ($viewData['render']) include($viewData['render']); ?>
 </section>
-<footer>&copy; NJE - GAMF - Informatika Tanszék <?= date("Y") ?></footer>
+<footer>&copy; Várhegyi-Miłoś Ádám, Csabai Albert <?= date("Y") ?></footer>
 </body>
 </html>

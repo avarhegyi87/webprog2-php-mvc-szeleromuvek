@@ -6,14 +6,13 @@ class Menu {
 	public static function setMenu() {
 		self::$menu = array();
 		$connection = Database::getConnection();
-		$stmt = $connection->query("select url, nev, jogosultsag from menu where jogosultsag like '" . $_SESSION['userlevel'] . "'order by sorrend");
+		$stmt = $connection->query("select url, nev, jogosultsag from menu where jogosultsag like '{$_SESSION['userlevel']}'order by sorrend");
 		while ($menuitem = $stmt->fetch(PDO::FETCH_ASSOC)) {
 			self::$menu[$menuitem['url']] = array($menuitem['nev'], $menuitem['jogosultsag']);
 		}
 	}
 
-	public static function getMenu($sItems) {
-		$submenu = "";
+	public static function getMenu($sItems): string {
 
 		$menu = "<ul>";
 		foreach (self::$menu as $menuindex => $menuitem) {
@@ -26,4 +25,3 @@ class Menu {
 }
 
 Menu::setMenu();
-?>

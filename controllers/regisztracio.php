@@ -1,8 +1,8 @@
 <?php
 
-class Belepes_Controller
+class Regisztracio_Controller
 {
-	public string $baseName = 'belepes';  //meghatározni, hogy melyik oldalon vagyunk
+	public string $baseName = 'regisztracio';  //meghatározni, hogy melyik oldalon vagyunk
 	public function main(array $vars) // a router által továbbított paramétereket kapja
 	{
 		//betöltjük a nézetet

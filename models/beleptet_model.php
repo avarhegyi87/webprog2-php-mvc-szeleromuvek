@@ -1,17 +1,21 @@
 <?php
 
 class Beleptet_Model {
-	public function get_data($vars) {
+	public function get_data($vars): array {
 		$retData['eredmeny'] = "";
 		try {
 			$connection = Database::getConnection();
-			$sql = "select id, csaladi_nev, utonev, jogosultsag from felhasznalok where bejelentkezes='" . $vars['login'] . "' and jelszo='" . sha1($vars['password']) . "'";
-			$stmt = $connection->query($sql);
+			$sqlSelect = "select id, csaladi_nev, utonev, jogosultsag from felhasznalok where bejelentkezes=:bejelentkezes and jelszo=:jelszo";
+			$stmt = $connection->prepare($sqlSelect);
+			$stmt->execute(array(
+				':bejelentkezes'=>$vars['login'],
+				':jelszo'=>sha1($vars['password'])
+						   ));
 			$felhasznalo = $stmt->fetchAll(PDO::FETCH_ASSOC);
 			switch (count($felhasznalo)) {
 				case 0:
 					$retData['eredmeny'] = "ERROR";
-					$retData['uzenet'] = "Helytelen felhasználói név-jelszó pár!";
+					$retData['uzenet'] = "Helytelen felhasználói név-jelszó pár!<br>" . print_r($vars);
 					break;
 				case 1:
 					$retData['eredmény'] = "OK";
@@ -35,5 +39,3 @@ class Beleptet_Model {
 		return $retData;
 	}
 }
-
-?>

@@ -8,5 +8,3 @@ class Error404_Controller
 		$view = new View_Loader($this->baseName.'_main');
 	}
 }
-
-?>

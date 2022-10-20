@@ -2,8 +2,7 @@
 
 class Kilepes_Model
 {
-	public function get_data()
-	{
+	public function get_data(): array {
 		$retData['eredmény'] = "OK";
 		$retData['uzenet'] = "Visszontlátásra kedves ".$_SESSION['userlastname']." ".$_SESSION['userfirstname']."!";
 		$_SESSION['userid'] =  0;
@@ -14,5 +13,3 @@ class Kilepes_Model
 		return $retData;
 	}
 }
-
-?>

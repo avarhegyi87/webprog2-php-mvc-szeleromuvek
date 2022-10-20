@@ -10,3 +10,4 @@
     <br>
     <input type="submit" value="Bejelentkezés">
 </form>
+<h2><br><?= ($viewData['uzenet'] ?? "") ?><br></h2>

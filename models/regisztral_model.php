@@ -1,7 +1,7 @@
 <?php
 
 class Regisztral_Model {
-	public function get_data($vars) {
+	public function get_data($vars): array {
 		$retData['eredmeny'] = "";
 		if (isset($vars['csaladi_nev'], $vars['utonev'], $vars['reg_login'], $vars['reg_pw'], $vars['reg_pw_confirm'])) {
 			if (!$vars['reg_pw'] = $vars['reg_pw_confirm']) {
@@ -29,7 +29,8 @@ class Regisztral_Model {
 									   ));
 						if ($darab = $stmt->rowCount()) {
 							$uj_id = $connection->lastInsertId();
-							$retData['uzenet'] = "Sikeres regisztráció.<br>Azonosítója: {$uj_id}";
+							$retData['uzenet'] = "Sikeres regisztráció.<br>Azonosítója: $uj_id<br>
+								Felhasználónevével és jelszavával beléphet a \"Belépés\" menüpont alatt";
 						} else {
 							$retData['eredmeny'] = "ERROR";
 							$retData['uzenet'] = "Sikertelen regisztráció";

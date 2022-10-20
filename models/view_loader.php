@@ -14,7 +14,7 @@ class View_Loader {
 		}
 		$file = SERVER_ROOT . 'css/' . strtolower($viewName) . '.css';
 		if (file_exists($file)) {
-			$this->style = SITE_ROOT . 'css/' . strtolower($viewName) . '.css';;
+			$this->style = SITE_ROOT . 'css/' . strtolower($viewName) . '.css';
 		}
 	}
 
@@ -30,5 +30,3 @@ class View_Loader {
 		include(SERVER_ROOT . 'views/page_main.php');
 	}
 }
-
-?>

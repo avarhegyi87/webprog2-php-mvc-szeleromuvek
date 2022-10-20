@@ -2,7 +2,7 @@
 
 class Kilepes_Controller
 {
-	public $baseName = 'kilepes';  //meghatározni, hogy melyik oldalon vagyunk
+	public string $baseName = 'kilepes';  //meghatározni, hogy melyik oldalon vagyunk
 	public function main(array $vars) // a router által továbbított paramétereket kapja
 	{
 		$kilepesModel = new Kilepes_Model;  //az osztályhoz tartozó modell
@@ -16,4 +16,3 @@ class Kilepes_Controller
 	}
 }
 
-?>

@@ -1,13 +1,14 @@
 <?php
 
 class Regisztral_Controller {
-	public $baseName = 'regisztral';
+	public string $baseName = 'regisztral';	//meghatározni, hogy melyik oldalon vagyunk
 
-	public function main(array $vars) {
-		$regisztralModel = new Regisztral_Model;
+	public function main(array $vars) {	// a router által továbbított paramétereket kapja
+		$regisztralModel = new Regisztral_Model;	//az osztályhoz tartozó modell
+		//a modellben beregisztráljuk a felhasználót
 		$retData = $regisztralModel->get_data($vars);
 		if($retData['eredmeny'] == "ERROR")
-			$this->baseName = "regisztral";
+			$this->baseName = "regisztracio";
 		//betöltjük a nézetet
 		$view = new View_Loader($this->baseName.'_main');
 		//Átadjuk a lekérdezett adatokat a nézetnek
