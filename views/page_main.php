@@ -8,7 +8,9 @@
 </head>
 <body>
 <header>
-    <div id="user"><em><?= ($_SESSION['userid'] != 0 || !isset($_SESSION['userid'])) ? $_SESSION['userlastname'] . " " . $_SESSION['userfirstname'] ?></em></div>
+    <div id="user">
+        <em><?= ($_SESSION['userid'] != 0 || !isset($_SESSION['userid'])) ? "Bejelentkezett: " . $_SESSION['userlastname'] . " " . $_SESSION['userfirstname'] : "" ?></em>
+    </div>
     <h1 class="header">Web-programozás II - MVC alkalmazás - Szélerőművek</h1>
 </header>
 <nav>
