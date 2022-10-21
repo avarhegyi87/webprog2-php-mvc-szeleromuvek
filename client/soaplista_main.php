@@ -26,10 +26,13 @@
       </select>
 
         <?php
-        
-        $selectOption = $_POST['tabla'];
-        if($selectOption == "user")
+        if(isset($_POST['tabla']) && trim($_POST['tabla']) != "")
         {
+          $selectOption = $_POST['tabla'];
+
+
+          if($selectOption == "user")
+          {
           ?>
           <table>
             <tr>
@@ -51,15 +54,11 @@
             <?php } ?>
 
           </table>
-        <?php } ?>
+          <?php } ?>
 
-
-
-        <?php
-       
-        $selectOption = $_POST['tabla'];
-        if($selectOption == "loc")
-        {
+          <?php
+          if($selectOption == "loc")
+          {
           ?>
           <table>
             <tr>
@@ -77,15 +76,13 @@
             <?php } ?>
 
           </table>
-        <?php } ?>
+          <?php } ?>
         
-        <?php
-       
-       $selectOption = $_POST['tabla'];
-       if($selectOption == "county")
-       {
-         ?>
-         <table>
+          <?php
+          if($selectOption == "county")
+          {
+          ?>
+          <table>
            <tr>
              <th>ID</th>
              <th>Név</th>
@@ -100,15 +97,13 @@
            </tr>
            <?php } ?>
 
-         </table>
-       <?php } ?>
-        
-       <?php
-       
-       $selectOption = $_POST['tabla'];
-       if($selectOption == "tower")
-       {
-         ?>
+          </table>
+          <?php } ?>
+
+          <?php
+          if($selectOption == "tower")
+          {
+          ?>
          <table>
            <tr>
              <th>ID</th>
@@ -128,9 +123,8 @@
            </tr>
            <?php } ?>
 
-         </table>
-       <?php } ?>
-
+          </table>
+          <?php } }?>
     </form>
   </body>                                                          
 </html>
