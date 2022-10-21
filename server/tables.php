@@ -1,4 +1,8 @@
 <?php
+const HOST = 'localhost';
+const DATABASE = 'szeleromuvek';
+const USER = 'root';
+const PASSWORD = '';
 class Tables {
   
   /**
@@ -11,10 +15,9 @@ class Tables {
 					  "users" => Array());
 	
 	try {
-      $connection = Database::getConnection();
-	  
+      $connection = new PDO('mysql:host=' . HOST . ';dbname=' . DATABASE, USER, PASSWORD,
+      array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
 	  $connection->query('SET NAMES utf8 COLLATE utf8_hungarian_ci');
-  
 	  $sql = "select id, csaladi_nev, utonev, bejelentkezes, jogosultsag from felhasznalok order by id";
 	  $sth = $connection->prepare($sql);
 	  $sth->execute(array());
@@ -40,7 +43,8 @@ class Tables {
                           "locations" => Array());
         
         try {
-          $connection = Database::getConnection();
+            $connection = new PDO('mysql:host=' . HOST . ';dbname=' . DATABASE, USER, PASSWORD,
+            array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
           
           $connection->query('SET NAMES utf8 COLLATE utf8_hungarian_ci');
       
@@ -68,7 +72,8 @@ class Tables {
                           "counties" => Array());
         
         try {
-          $connection = Database::getConnection();
+            $connection = new PDO('mysql:host=' . HOST . ';dbname=' . DATABASE, USER, PASSWORD,
+            array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
           
           $connection->query('SET NAMES utf8 COLLATE utf8_hungarian_ci');
       
@@ -97,11 +102,12 @@ class Tables {
                           "towers" => Array());
         
         try {
-          $connection = Database::getConnection();
+            $connection = new PDO('mysql:host=' . HOST . ';dbname=' . DATABASE, USER, PASSWORD,
+            array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
           
           $connection->query('SET NAMES utf8 COLLATE utf8_hungarian_ci');
       
-          $sql = "select id, darab, teljesitmeny, kezdev, helyszinid from megye order by id";
+          $sql = "select id, darab, teljesitmeny, kezdev, helyszinid from torony order by id";
           $sth = $connection->prepare($sql);
           $sth->execute(array());
           $eredmeny['towers'] = $sth->fetchAll(PDO::FETCH_ASSOC);
@@ -193,7 +199,7 @@ class Location {
     /**
      * @var Location[]
      */
-    public $Locations;  
+    public $locations;  
   }
   
   class County{
@@ -228,7 +234,7 @@ class Location {
     /**
      * @var County[]
      */
-    public $Counties;  
+    public $counties;  
   }
 
 
@@ -274,7 +280,7 @@ class Location {
     /**
      * @var Tower[]
      */
-    public $Towers;  
+    public $towers;  
   }
 
 

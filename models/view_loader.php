@@ -8,7 +8,7 @@ class View_Loader {
 
 	public function __construct($viewName) {
 		$file = SERVER_ROOT . 'views/' . strtolower($viewName) . '.php';
-		if (file_exists($file) && strtolower($viewName) != 'soaplista') {
+		if (file_exists($file) && strtolower($viewName) != 'soaplista_main') {
 			$this->render = $file;
 			$this->selectedItems = explode("_", $viewName);
 		}
