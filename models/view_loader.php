@@ -8,8 +8,13 @@ class View_Loader {
 
 	public function __construct($viewName) {
 		$file = SERVER_ROOT . 'views/' . strtolower($viewName) . '.php';
-		if (file_exists($file)) {
+		if (file_exists($file) && strtolower($viewName) != 'soaplista') {
 			$this->render = $file;
+			$this->selectedItems = explode("_", $viewName);
+		}
+		if(strtolower($viewName) == 'soaplista_main') {
+			$kliensnev= SERVER_ROOT . 'client/' . strtolower($viewName) . '.php';
+			$this->render = $kliensnev;
 			$this->selectedItems = explode("_", $viewName);
 		}
 		$file = SERVER_ROOT . 'css/' . strtolower($viewName) . '.css';

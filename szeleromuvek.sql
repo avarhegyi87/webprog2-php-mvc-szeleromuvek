@@ -152,9 +152,10 @@ INSERT INTO `menu` (`url`, `nev`, `jogosultsag`, `sorrend`) VALUES
 ('arfolyamok', 'Árfolyamok', '111', 40),
 ('belepes', 'Belépés', '100', 50),
 ('hirek', 'Hírek', '111', 20),
-('kilepes', 'Kilépés', '011', 70),
+('kilepes', 'Kilépés', '011', 80),
 ('nyitolap', 'Nyitólap', '111', 10),
-('regisztral', 'Regisztráció', '100', 60);
+('regisztracio', 'Regisztráció', '100', 60),
+('soaplista', 'SOAP lista', '011', 70),;
 
 -- --------------------------------------------------------
 
