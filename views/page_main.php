@@ -9,7 +9,11 @@
 <body>
 <header>
     <div id="user">
-        <em><?= ($_SESSION['userid'] != 0 || !isset($_SESSION['userid'])) ? "Bejelentkezett: " . $_SESSION['userlastname'] . " " . $_SESSION['userfirstname'] : "" ?></em>
+        <em>
+            <?= ($_SESSION['userid'] != 0 && isset($_SESSION['userid'])) ?
+                "Bejelentkezett: " . $_SESSION['userlastname'] . " " . $_SESSION['userfirstname'] : "" ?>
+            <?= ($_SESSION['userlevel'] == '__1') ? " (adminisztátor)" : "" ?>
+        </em>
     </div>
     <h1 class="header">Web-programozás II - MVC alkalmazás - Szélerőművek</h1>
 </header>

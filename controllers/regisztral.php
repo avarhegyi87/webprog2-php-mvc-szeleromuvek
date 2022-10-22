@@ -1,7 +1,7 @@
 <?php
 
 class Regisztral_Controller {
-	public string $baseName = 'regisztral';	//meghatározni, hogy melyik oldalon vagyunk
+	public string $baseName = 'beleptet';	//meghatározni, hogy melyik oldalon vagyunk
 
 	public function main(array $vars) {	// a router által továbbított paramétereket kapja
 		$regisztralModel = new Regisztral_Model;	//az osztályhoz tartozó modell
