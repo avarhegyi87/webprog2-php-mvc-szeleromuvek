@@ -29,7 +29,9 @@ class Hirek_Model {
 							':hirid'=>$hir['id']
 									   ));
 						$kommentek = $stmt->fetchAll(PDO::FETCH_ASSOC);
+						$hir['kommentek'] = $kommentek;
 					}
+					$retData=$hirLista;
 			}
 		} catch (PDOException $e) {
 			$retData['eredmey'] = "ERROR";
@@ -38,3 +40,4 @@ class Hirek_Model {
 		return $retData;
 	}
 }
+
