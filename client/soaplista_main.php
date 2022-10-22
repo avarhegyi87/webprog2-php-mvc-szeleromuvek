@@ -1,6 +1,7 @@
 
 <!DOCTYPE HTML>
 <html>
+<link rel="stylesheet" type="text/css" href="<?php echo SITE_ROOT ?>css/main_style.css">
 
   <?php 
   $client = new SoapClient('http://localhost/feladat/server/tables.wsdl');
@@ -8,123 +9,66 @@
   $locations = $client->getlocations();
   $counties = $client->getcounties();
   $towers = $client->gettowers();
+  $len = count($counties -> counties);
   ?>
-    
   <body>
-    <h2>Üdvözöljük!</h2>
-    <h3>Ezen az oldalon megtekintheti az adatbázis minden táblájának adatait, SOAP API segítségével.</h3>
+    <h2 id = "center">Üdvözöljük!</h2>
+    <h3 id = "center">Ezen az oldalon megtekintheti az adatbázis minden táblájának adatait, SOAP API segítségével.</h3>
     
-    <form name="tableselect" text="Tábla választás" method="POST">
-      <select name="tabla" onchange="javascript:tableselect.submit();">
+    <form id = "center" name="tableselect" text="Tábla választás" method="POST">
+      <select id = "center" name="megye" onchange="javascript:tableselect.submit();">
 
-        <option value="">Válasszon táblát!</option>
-        <option value="user">Felhasználók</option>
-        <option value="loc">Helyszínek</option>
-        <option value="county">Megyék</option>
-        <option value="tower">Tornyok</option>
+        <option value=" ">Válasszon megyét!</option>
+        <?php 
+        foreach($counties -> counties as $county){ ?>
         
+          <option value="<?php echo $county['id'];?>" <?php if(isset($_POST['megye']) && $_POST['megye'] == $county['id']) {echo "selected=selected";}?>><?php echo $county['nev'];?></option>
+        <?php }?>
       </select>
-
-        <?php
-        if(isset($_POST['tabla']) && trim($_POST['tabla']) != "")
+      <?php 
+      if(isset($_POST['megye']) && trim($_POST['megye']) != "")
+        {?>
+          <select id = "center" name="hely" onchange="javascript:tableselect.submit();">
+          <option value="">Válasszon helységet!</option>
+        <?php 
+          foreach($locations -> locations as $loc){
+            if($loc['megyeid'] == $_POST['megye']){ ?>
+          <option value="<?php echo $loc['id'];?>" <?php if( isset($_POST['hely'])  && $_POST['hely'] == $loc['id']) {echo "selected=selected";}?>><?php echo $loc['nev'];?></option>
+        <?php }}}?>
+      </select>
+      <?php 
+        if(isset($_POST['hely']) && trim($_POST['hely']) != "" && trim($_POST['megye']) != "" && isset($_POST['megye']))
         {
-          $selectOption = $_POST['tabla'];
-
-
-          if($selectOption == "user")
-          {
-          ?>
-          <table>
-            <tr>
-              <th>ID</th>
-              <th>Családi név</th>
-              <th>Keresztnév</th>
-              <th>Felhasználónév</th>
-              <th>Jogosultság</th>
-            </tr>
-
-            <?php foreach($users -> users as $user){ ?>
-            <tr>
-              <td><?php echo $user['id'] ?></td>
-              <td><?php echo $user['csaladi_nev'] ?></td>
-              <td><?php echo $user['utonev'] ?></td>
-              <td><?php echo $user['bejelentkezes'] ?></td>
-              <td><?php echo $user['jogosultsag'] ?></td>
-            </tr>
-            <?php } ?>
-
-          </table>
-          <?php } ?>
-
-          <?php
-          if($selectOption == "loc")
-          {
-          ?>
-          <table>
-            <tr>
-              <th>ID</th>
-              <th>Név</th>
-              <th>Megye ID</th>
-            </tr>
-
-            <?php foreach($locations -> locations as $loc){ ?>
-            <tr>
-              <td><?php echo $loc['id'] ?></td>
-              <td><?php echo $loc['nev'] ?></td>
-              <td><?php echo $loc['megyeid'] ?></td>
-            </tr>
-            <?php } ?>
-
-          </table>
-          <?php } ?>
-        
-          <?php
-          if($selectOption == "county")
-          {
-          ?>
-          <table>
+          ?> 
+        <div id = "center" style="overflow-x:auto;">
+          <table class="table table-sm table-hover" >
+            
            <tr>
-             <th>ID</th>
-             <th>Név</th>
-             <th>Régió</th>
+             <th scope="col">ID</th>
+             <th scope="col">Darab</th>
+             <th scope="col">Teljesítmény</th>
+             <th scope="col">Kezdeti év</th>
            </tr>
-
-           <?php foreach($counties -> counties as $county){ ?>
-           <tr>
-             <td><?php echo $county['id'] ?></td>
-             <td><?php echo $county['nev'] ?></td>
-             <td><?php echo $county['regio'] ?></td>
-           </tr>
-           <?php } ?>
-
-          </table>
-          <?php } ?>
-
-          <?php
-          if($selectOption == "tower")
-          {
-          ?>
-         <table>
-           <tr>
-             <th>ID</th>
-             <th>Darab</th>
-             <th>Teljesítmény</th>
-             <th>Kezdeti év</th>
-             <th>Helyszín ID</th>
-           </tr>
-
-           <?php foreach($towers -> towers as $tower){ ?>
+           </table>
+        </div>
+            <?php foreach($towers -> towers as $tower){ 
+            if($tower['helyszinid'] == $_POST['hely']){?>
+           <div class="table-responsive-sm">
+          <table class="table table-sm table-hover" >
            <tr>
              <td><?php echo $tower['id'] ?></td>
              <td><?php echo $tower['darab'] ?></td>
              <td><?php echo $tower['teljesitmeny'] ?></td>
              <td><?php echo $tower['kezdev'] ?></td>
-             <td><?php echo $tower['helyszinid'] ?></td>
            </tr>
+           </table>
+        </div>
            <?php } ?>
 
           </table>
-          <?php } }?>
+        </div>
+          <?php }} ?>
+
     </form>
   </body>                                                          
 </html>
