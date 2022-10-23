@@ -8,7 +8,7 @@ class Regisztral_Controller {
 		//a modellben beregisztráljuk a felhasználót
 		$retData = $regisztralModel->get_data($vars);
 		if($retData['eredmeny'] == "ERROR")
-			$this->baseName = "regisztracio";
+			$this->baseName = "belepes";
 		//betöltjük a nézetet
 		$view = new View_Loader($this->baseName.'_main');
 		//Átadjuk a lekérdezett adatokat a nézetnek
