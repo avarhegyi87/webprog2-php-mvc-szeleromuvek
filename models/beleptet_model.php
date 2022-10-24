@@ -15,7 +15,7 @@ class Beleptet_Model {
 			switch (count($felhasznalo)) {
 				case 0:
 					$retData['eredmeny'] = "ERROR";
-					$retData['uzenet'] = "Helytelen felhasználói név-jelszó pár!<br>" . print_r($vars);
+					$retData['uzenet'] = "Helytelen felhasználói név-jelszó pár!";
 					break;
 				case 1:
 					$retData['eredmény'] = "OK";
