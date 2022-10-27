@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2022. Okt 20. 11:52
+-- Létrehozás ideje: 2022. Okt 25. 20:57
 -- Kiszolgáló verziója: 10.4.22-MariaDB
 -- PHP verzió: 8.1.2
 
@@ -41,7 +41,12 @@ CREATE TABLE `felhasznalok` (
 --
 
 INSERT INTO `felhasznalok` (`id`, `csaladi_nev`, `utonev`, `bejelentkezes`, `jelszo`, `jogosultsag`) VALUES
-(1, 'Várhegyi-Miłoś', 'Ádám', 'adamvm', '7450c30ed820db62bb93baf1ce3365d205c6fd7d', '__1');
+(1, 'Várhegyi-Miłoś', 'Ádám', 'adamvm', '7450c30ed820db62bb93baf1ce3365d205c6fd7d', '__1'),
+(2, 'Mała', 'Dupcia', 'malamala', '2f45e7e89d5926893e25a5db94dc55a79090f2cb', '_1_'),
+(3, 'Fa', 'Szabolcs', 'fasza', '2f45e7e89d5926893e25a5db94dc55a79090f2cb', '_1_'),
+(4, 'Várhegyi-Miłoś', 'Agnieszka', 'agamilos', '2f45e7e89d5926893e25a5db94dc55a79090f2cb', '_1_'),
+(5, 'Felhasználó', 'János', 'janos', '5b7fc0b67e26763a0e2db4e69fc62b0e72a15fde', '_1_'),
+(6, 'Várhegyi', 'Balázs', 'vbali1990', '5b7fc0b67e26763a0e2db4e69fc62b0e72a15fde', '_1_');
 
 -- --------------------------------------------------------
 
@@ -91,6 +96,67 @@ INSERT INTO `helyszin` (`id`, `nev`, `megyeid`) VALUES
 (35, 'Bábolna', 12),
 (37, 'Ikervár', 16),
 (38, 'Lövő', 15);
+
+-- --------------------------------------------------------
+
+--
+-- Tábla szerkezet ehhez a táblához `hirek`
+--
+
+CREATE TABLE `hirek` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `userid` int(10) UNSIGNED NOT NULL,
+  `datum` timestamp NOT NULL DEFAULT current_timestamp(),
+  `hir` text NOT NULL DEFAULT ''
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- A tábla adatainak kiíratása `hirek`
+--
+
+INSERT INTO `hirek` (`id`, `userid`, `datum`, `hir`) VALUES
+(1, 1, '2022-10-21 22:00:00', 'teszthír'),
+(2, 2, '2022-10-23 11:25:38', 'teszthír 2'),
+(3, 1, '2022-10-23 18:25:22', 'Beküldött hír 1'),
+(4, 1, '2022-10-23 18:47:47', 'Beküldött hír 2'),
+(5, 1, '2022-10-23 18:49:40', 'Beküldött hír 3'),
+(6, 1, '2022-10-23 18:49:54', 'Beküldött hír 4'),
+(7, 1, '2022-10-23 18:51:56', 'Beküldött hír 5'),
+(8, 6, '2022-10-24 19:01:10', 'OneDrive Linuxra: https://github.com/abraunegg/onedrive/blob/master/docs/INSTALL.md'),
+(9, 1, '2022-10-25 18:47:27', 'Egy meggymag meg még egy meggymag');
+
+-- --------------------------------------------------------
+
+--
+-- Tábla szerkezet ehhez a táblához `kommentek`
+--
+
+CREATE TABLE `kommentek` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `userid` int(10) UNSIGNED NOT NULL,
+  `hirid` int(10) UNSIGNED NOT NULL,
+  `datum` timestamp NOT NULL DEFAULT current_timestamp(),
+  `komment` tinytext NOT NULL DEFAULT ''
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- A tábla adatainak kiíratása `kommentek`
+--
+
+INSERT INTO `kommentek` (`id`, `userid`, `hirid`, `datum`, `komment`) VALUES
+(1, 3, 1, '2022-10-22 21:28:34', 'tesztkomment1'),
+(2, 2, 1, '2022-10-22 21:29:04', 'tesztkomment2'),
+(4, 1, 7, '2022-10-23 21:59:26', 'komment az 5. beküldött hírhez'),
+(5, 1, 7, '2022-10-23 22:10:36', 'még egy komment az 5. beküldött hírhez'),
+(6, 1, 5, '2022-10-23 22:15:00', 'kommentelem a 3. beküldött hírt'),
+(7, 1, 7, '2022-10-23 22:25:46', 'legyen itt egy 3. komment is'),
+(8, 1, 7, '2022-10-23 22:30:47', 'legyen itt egy 3. komment is'),
+(9, 1, 7, '2022-10-23 22:30:57', 'és egy 4. is...'),
+(10, 1, 7, '2022-10-24 18:37:37', 'és egy 4. is...'),
+(11, 1, 2, '2022-10-24 18:37:55', 'első'),
+(12, 6, 4, '2022-10-24 18:58:18', 'izémizé'),
+(13, 6, 8, '2022-10-24 19:01:56', 'ajánlom'),
+(14, 1, 9, '2022-10-25 18:48:14', 'A két meggymag');
 
 -- --------------------------------------------------------
 
@@ -152,9 +218,8 @@ INSERT INTO `menu` (`url`, `nev`, `jogosultsag`, `sorrend`) VALUES
 ('arfolyamok', 'Árfolyamok', '111', 40),
 ('belepes', 'Belépés', '100', 50),
 ('hirek', 'Hírek', '111', 20),
-('kilepes', 'Kilépés', '011', 70),
-('nyitolap', 'Nyitólap', '111', 10),
-('regisztral', 'Regisztráció', '100', 60);
+('kilepes', 'Kilépés', '011', 60),
+('nyitolap', 'Nyitólap', '111', 10);
 
 -- --------------------------------------------------------
 
@@ -238,6 +303,21 @@ ALTER TABLE `helyszin`
   ADD KEY `megyeid` (`megyeid`);
 
 --
+-- A tábla indexei `hirek`
+--
+ALTER TABLE `hirek`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `userid` (`userid`);
+
+--
+-- A tábla indexei `kommentek`
+--
+ALTER TABLE `kommentek`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `userid` (`userid`),
+  ADD KEY `hirid` (`hirid`);
+
+--
 -- A tábla indexei `megye`
 --
 ALTER TABLE `megye`
@@ -264,13 +344,25 @@ ALTER TABLE `torony`
 -- AUTO_INCREMENT a táblához `felhasznalok`
 --
 ALTER TABLE `felhasznalok`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT a táblához `helyszin`
 --
 ALTER TABLE `helyszin`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+
+--
+-- AUTO_INCREMENT a táblához `hirek`
+--
+ALTER TABLE `hirek`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT a táblához `kommentek`
+--
+ALTER TABLE `kommentek`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT a táblához `megye`
@@ -293,6 +385,19 @@ ALTER TABLE `torony`
 --
 ALTER TABLE `helyszin`
   ADD CONSTRAINT `helyszin_ibfk_1` FOREIGN KEY (`megyeid`) REFERENCES `megye` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Megkötések a táblához `hirek`
+--
+ALTER TABLE `hirek`
+  ADD CONSTRAINT `hirek_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `felhasznalok` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
+
+--
+-- Megkötések a táblához `kommentek`
+--
+ALTER TABLE `kommentek`
+  ADD CONSTRAINT `kommentek_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `felhasznalok` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `kommentek_ibfk_2` FOREIGN KEY (`hirid`) REFERENCES `hirek` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
 -- Megkötések a táblához `torony`
