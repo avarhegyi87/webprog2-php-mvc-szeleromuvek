@@ -1,5 +1,7 @@
 <h1>Deviza árfolyam megtekintés egy adott napra</h1>
 <?php
+//Globális változók létrehozása.
+$today = date("m/d/Y");
 $eredmeny = "sss";
 $eredmeny2 = "aaa";
 $rdate = "fff";
@@ -10,11 +12,8 @@ $dev2;
 $foo = 0.0;
 $error = "A kiválasztott devizákra az adott napon nem található adat!";
 $er = 0;
-function bck()
-{
-  $view = new View_Loader('arfolyamok_main');
-}
 ?>
+<!--Használt scriptek meghívása.-->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>jQuery UI Datepicker - Default functionality</title>
@@ -23,17 +22,20 @@ function bck()
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js">
 </script>
-
+<!--A datepicker script meghívása, és paraméterként megadjuk a mai dátumot korlátozó tényezőként, hogy a jövőbeni napokat ne tudjuk kijelölni a lekérdezéshez.-->
 <script>
   $(function() {
-    $("#datepicker").datepicker();
+    $("#datepicker").datepicker({
+      "maxDate": "<?php echo $today; ?>"
+    });
   });
 </script>
 
 <body>
-
+<!--form létrehozása, egy inputtal ellátva, amibe belekattintva egy dátum választó jelenik meg.-->
   <form id="center" name="tableselect" text="Tábla választás" method="POST">
     <input type="text" name="datum" id="datepicker" required="required">
+    <!--Két legördülő menü létrehozása, amiben az MNB weboldaláról lekért pénznemek jelennek meg.-->
     <select id="center" name="penznem" required="required">
       <option value=" ">Válasszon Devizát!</option>
       <?php
@@ -52,17 +54,21 @@ function bck()
     </select>
 
     <?php
-
+  //Amennyiben választottunk egy dátumot és két pénznemet, a dátumot és a megfelelő formátummá alakítjuk, amit elfogad az MNB szolgáltatása.
+  //A menükben kiválasztott pénznemeket és az átalakított dátumot egy - egy változóba mentjük.
+  
     if (isset($_POST['datum']) && isset($_POST['penznem']) && isset($_POST['kuld']) && $_POST['datum'] != "" && $_POST['penznem'] != "" && $_POST['penznem2'] != "") {
       $sdate = explode("/", $_POST['datum']);
       $rdate = $sdate[2] . "-" . $sdate[0] . "-" . $sdate[1];
       $currency1 = $_POST['penznem'];
       $currency2 = $_POST['penznem2'];
     }
+    //Az MNB szolgáltatását használva lekérjük a megadott devizák árfolyamát a megadott intervallumban, majd xml-ként egy változóba mentjük.
     if (isset($_POST['penznem']) && isset($_POST['datum']) && $_POST['penznem'] != "HUF" && $_POST['penznem2'] != "HUF" && isset($_POST['kuld'])) {
       $eredmeny = simplexml_load_string(exc_rates($rdate, $rdate, $currency1));
       $eredmeny2 = simplexml_load_string(exc_rates($rdate, $rdate, $currency2));
       if ($eredmeny->count() != 0 || $eredmeny2->count() != 0) {
+        //Az szolgáltatástól kapott adatokat először json formátumba kódoljuk, majd dekódoljuk és tömbökké alakítjuk.
         $json = json_encode($eredmeny);
         $array = json_decode($json, TRUE);
         $dev = floatval(str_replace(',', '.', trim($array["Day"]["Rate"])));
@@ -80,6 +86,9 @@ function bck()
         $er = 1;
       }
     }
+    //Mivel a HUF nem szerepel alekérdezhető pénznemek között, mert minden devizát forintban adnak meg. 
+    //Hogyha a felhasználó mindkét helyre forintot adna meg, akkor is egyet kapnánk, akárcsak az eurónál és minden más pénznemnél.
+    //Egyserűsítésként abban az esetben, ha mindkét pénznem ugyanaz, akkor alapból EUR-t küldünk és nem fog hibát jelezni a lekérdezés.
     if (isset($_POST['penznem']) && isset($_POST['datum']) && $_POST['penznem'] == "HUF" && $_POST['penznem2'] != "HUF" && isset($_POST['kuld'])) {
 
       $eredmeny2 = simplexml_load_string(exc_rates($rdate, $rdate, $currency2));
@@ -115,11 +124,18 @@ function bck()
         $er = 1;
       }
     }
+    if (isset($_POST['penznem']) && isset($_POST['datum']) && $_POST['penznem'] == "HUF" && $_POST['penznem2'] == "HUF" && isset($_POST['kuld'])) {
+      
+     
+        $foo = 1;
+        $er = 0;
+      
+    }
     ?>
     <input type="submit" name="kuld" value="Küld">
     <?php if ($currency1 != "ooo" && $currency2 != "www" && $rdate != "fff") { ?>
 
-
+<!--A küld gomb megnyomása után kiírja az megadott napra a devizapár értékét.-->
       <h3>A megadott devizák atváltási aránya a megadott napon (<?php echo $rdate; ?>):</h3>
       <h3> <?php echo $currency1 . " => " . $currency2; ?></h3>
       <h4><?php if (isset($_POST["kuld"]) && $foo != 0) {

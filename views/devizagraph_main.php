@@ -1,6 +1,7 @@
 <h1>Árfolyamgrafikon</h1>
 <h2>Grafikon paraméterek</h2>
 <?php
+//Globális változók létrehozása.
 $today = date("m/d/Y");
 $eredmeny = "sss";
 $eredmeny2 = "aaa";
@@ -17,12 +18,9 @@ $values = array();
 $foo = array();
 $error = "A kiválasztott devizákra az adott napon nem található adat!";
 $er = 0;
-function bck()
-{
-  $view = new View_Loader('arfolyamok_main');
-}
-?>
 
+?>
+<!--Használt scriptek meghívása.-->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
@@ -30,6 +28,7 @@ function bck()
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+<!--Minimális táblázat formázási stílus.-->
 <style>
   table {
     width: 80%;
@@ -56,7 +55,7 @@ function bck()
     width: fit-content;
   }
 </style>
-
+<!--A daterangepicker script meghívása, és paraméterként megadjuk a mai dátumot korlátozó tényezőként, hogy a jövőbeni napokat ne tudjuk kijelölni a lekérdezéshez.-->
 <script>
   $(function() {
 
@@ -67,9 +66,10 @@ function bck()
 </script>
 
 <body>
-
+<!--form létrehozása, egy inputtal ellátva, amibe belekattintva egy dátum intervallum választó jelenik meg.-->
   <form id="center" name="tableselect" text="Tábla választás" method="POST">
-    <input type="text" name="datum" id="daterangepicker" required="required">
+    <input type="text" autocomplete="off" name="datum" id="daterangepicker" required="required">
+    <!--Két legördülő menü létrehozása, amiben az MNB weboldaláról lekért pénznemek jelennek meg.-->
     <select id="center" name="penznem" required="required">
       <option value=" ">Válasszon Devizát!</option>
       <?php
@@ -89,8 +89,9 @@ function bck()
     </select>
 
     <?php
-
-    if (isset($_POST['datum']) && isset($_POST['penznem']) && isset($_POST['kuld']) && $_POST['datum'] != "" && $_POST['penznem'] != "" && $_POST['penznem2'] != "") {
+  //Amennyiben választottunk egy intervallumot és két pénznemet, szétbontjuk a dátumokat és a megfelelő formátummá alakítjuk, amit elfogad az MNB szolgáltatása.
+  //A menükben kiválasztott pénznemeket és az átalakított dátumokat egy - egy változóba mentjük.
+  if (isset($_POST['datum']) && isset($_POST['penznem']) && isset($_POST['kuld']) && $_POST['datum'] != "" && $_POST['penznem'] != "" && $_POST['penznem2'] != "") {
       $sdate = explode("-", $_POST['datum']);
       $ddate = explode("/", $sdate[0]);
       $ddate2 = explode("/", $sdate[1]);
@@ -99,10 +100,12 @@ function bck()
       $currency1 = $_POST['penznem'];
       $currency2 = $_POST['penznem2'];
     }
+    //Az MNB szolgáltatását használva lekérjük a megadott devizák árfolyamát a megadott intervallumban, majd xml-ként egy változóba mentjük.
     if (isset($_POST['penznem']) && isset($_POST['datum'])  && isset($_POST['kuld']) && $currency1 != $currency2) {
       $eredmeny = simplexml_load_string(exc_rates($rdate, $rdate2, $currency1));
       $eredmeny2 = simplexml_load_string(exc_rates($rdate, $rdate2, $currency2));
       if ($eredmeny->count() != 0 || $eredmeny2->count() != 0) {
+        //Az szolgáltatástól kapott adatokat először json formátumba kódoljuk, majd dekódoljuk és tömbökké alakítjuk.
         $json = json_encode($eredmeny);
         $array = json_decode($json, TRUE);
         $dev = ($array["Day"]);
@@ -113,13 +116,15 @@ function bck()
         $json2 = json_encode($eredmeny2);
         $array2 = json_decode($json2, TRUE);
         $dev2 = ($array2["Day"]);
-        // array_push($foo, ($dev/$dev2));
         $eredmeny2 = "";
         $er = 0;
       } else {
         $er = 1;
       }
     }
+    //Mivel a HUF nem szerepel alekérdezhető pénznemek között, mert minden devizát forintban adnak meg. 
+    //Hogyha a felhasználó mindkét helyre forintot adna meg, akkor is egyet kapnánk, akárcsak az eurónál és minden más pénznemnél.
+    //Egyserűsítésként abban az esetben, ha mindkét pénznem ugyanaz, akkor alapból EUR-t küldünk és nem fog hibát jelezni a lekérdezés.
     if (isset($_POST['penznem']) && isset($_POST['datum'])  && isset($_POST['kuld']) && $currency1 == $currency2) {
       $eredmeny = simplexml_load_string(exc_rates($rdate, $rdate2, "EUR"));
       $eredmeny2 = simplexml_load_string(exc_rates($rdate, $rdate2, "EUR"));
@@ -134,7 +139,6 @@ function bck()
         $json2 = json_encode($eredmeny2);
         $array2 = json_decode($json2, TRUE);
         $dev2 = ($array2["Day"]);
-        // array_push($foo, ($dev/$dev2));
         $eredmeny2 = "";
         $er = 0;
       } else {
@@ -147,6 +151,7 @@ function bck()
 
 
     <input type="submit" name="kuld" value="Küld">
+    <!--Ellenőrizzük, hogy az elején megadott változók adatai cserélődtek-e, hogyha igen, akkor kiírja a áblázatot és a grafikont megrajzolja.-->
     <?php if ($currency1 != "ooo" && $currency2 != "www" && $rdate != "fff" && $rdate2 != "fff") { ?>
       <h3>A megadott devizák atváltási aránya az adott napon:</h3>
 
@@ -159,6 +164,7 @@ function bck()
           </tr>
           <?php
           $cnt = 0;
+          //táblázatosan kiíratjuk a megadott intervallumban a devizapár váltószámát.
           foreach ($dev as $fooo) {
             if (isset($_POST["kuld"]) && $currency1 != "HUF" && $currency2 != "HUF") { ?>
               <tr>
@@ -200,7 +206,7 @@ function bck()
         </table>
       </div>
 
-
+<!--Grafikon megrajzolása chart.js hsználatával.-->
       <div>
         <canvas id="myChart"></canvas>
       </div>
