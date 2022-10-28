@@ -4,34 +4,8 @@ const DATABASE = 'szeleromuvek';
 const USER = 'root';
 const PASSWORD = '';
 class Tables {
-  
-  /**
-    *  @return Users
-    */
-  public function getusers(){
-  
-	$eredmeny = array("errorcode" => 0,
-					  "msg" => "",
-					  "users" => Array());
-	
-	try {
-      $connection = new PDO('mysql:host=' . HOST . ';dbname=' . DATABASE, USER, PASSWORD,
-      array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
-	  $connection->query('SET NAMES utf8 COLLATE utf8_hungarian_ci');
-	  $sql = "select id, csaladi_nev, utonev, bejelentkezes, jogosultsag from felhasznalok order by id";
-	  $sth = $connection->prepare($sql);
-	  $sth->execute(array());
-	  $eredmeny['users'] = $sth->fetchAll(PDO::FETCH_ASSOC);
-	}
-	catch (PDOException $e) {
-	  $eredmeny["errorcode"] = 1;
-	  $eredmeny["msg"] = $e->getMessage();
-	}
-	
-	return $eredmeny;
-  }
 
-  
+
    
   /**
     *  @return Locations
@@ -282,6 +256,3 @@ class Location {
      */
     public $towers;  
   }
-
-
-?>

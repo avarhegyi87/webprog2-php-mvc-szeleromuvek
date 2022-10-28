@@ -8,6 +8,7 @@ if (!isset($_SESSION['userlevel'])) $_SESSION['userlevel'] = "1__";
 
 include(SERVER_ROOT . 'includes/database.inc.php');
 include(SERVER_ROOT . 'includes/menu.inc.php');
+include(SERVER_ROOT . 'client/dev_napra.php');
 
 // Felbontjuk a paramétereket. Az & elválasztó jellel végzett felbontás
 // megfelelő lesz, első eleme a megtekinteni kívánt oldal neve.
