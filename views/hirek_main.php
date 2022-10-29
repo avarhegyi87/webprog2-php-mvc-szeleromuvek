@@ -3,12 +3,10 @@
 if ($_SESSION['userid'] == 0 || !isset($_SESSION['userid'])) {
 	?><h2>A hírek eléréséhez és a kommenteléshez kérjük jelentkezzen be!</h2><?php
 } else { ?>
-<!--        <pre>--><?php //print_r($viewData) ?><!--</pre>--><?php
-    ?>
     <h2><?= ($viewData['uzenet'] ?? "") ?></h2>
     <h2><?= ($viewData['kommentel-uzenet'] ?? "") ?></h2>
     <h2><?= ($viewData['hirbekuld-uzenet'] ?? "") ?></h2>
-    <?php
+	<?php
 	foreach ($viewData as $hir) {
 		if (isset($hir['hir'])) { ?>
             <ul>

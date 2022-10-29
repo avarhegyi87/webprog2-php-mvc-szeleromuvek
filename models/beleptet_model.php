@@ -8,8 +8,8 @@ class Beleptet_Model {
 			$sqlSelect = "select id, csaladi_nev, utonev, jogosultsag from felhasznalok where bejelentkezes=:bejelentkezes and jelszo=:jelszo";
 			$stmt = $connection->prepare($sqlSelect);
 			$stmt->execute(array(
-				':bejelentkezes'=>$vars['login'],
-				':jelszo'=>sha1($vars['password'])
+							   ':bejelentkezes' => $vars['login'],
+							   ':jelszo' => sha1($vars['password'])
 						   ));
 			$felhasznalo = $stmt->fetchAll(PDO::FETCH_ASSOC);
 			switch (count($felhasznalo)) {

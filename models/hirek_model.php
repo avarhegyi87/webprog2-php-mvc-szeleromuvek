@@ -32,13 +32,13 @@ class Hirek_Model {
 						$osszesKomment = $stmt->fetchAll(PDO::FETCH_ASSOC);
 						foreach ($osszesKomment as $Item) {
 							$kommentek[] = [
-								'bejelentkezes'=>$Item['kommentelo'],
-								'datum'=>$Item['datum'],
-								'komment'=>$Item['komment']
+								'bejelentkezes' => $Item['kommentelo'],
+								'datum' => $Item['datum'],
+								'komment' => $Item['komment']
 							];
 						}
 						$tartalom[] = [
-							'id'=>$hir['id'],
+							'id' => $hir['id'],
 							'bejelentkezes' => $hir['bejelentkezes'],
 							'datum' => $hir['datum'],
 							'hir' => $hir['hir'],

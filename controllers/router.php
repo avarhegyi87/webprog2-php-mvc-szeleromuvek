@@ -18,7 +18,7 @@ $vars = array();
 
 $request = $_SERVER['QUERY_STRING'];
 
-if ($request != "" && $request !="_ijt=opqhlf5fug9l6tjhjoa7nvmg7o&_ij_reload=RELOAD_ON_SAVE") {
+if ($request != "" && $request != "_ijt=opqhlf5fug9l6tjhjoa7nvmg7o&_ij_reload=RELOAD_ON_SAVE") {
 	$params = explode('/', $request);
 	$page = array_shift($params); // a kért oldal neve
 

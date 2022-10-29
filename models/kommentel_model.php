@@ -13,9 +13,9 @@ class Kommentel_Model {
 					$sqlInsert = "insert into kommentek(userid, hirid, komment) values (:userid, :hirid, :komment)";
 					$stmt = $connection->prepare($sqlInsert);
 					$stmt->execute(array(
-						'userid'=>$_SESSION['userid'],
-						'hirid'=>$vars['hirid'],
-						'komment'=>$vars['ujkomment']
+									   'userid' => $_SESSION['userid'],
+									   'hirid' => $vars['hirid'],
+									   'komment' => $vars['ujkomment']
 								   ));
 					if ($stmt->rowCount()) {
 						$retData['uzenet'] = "Komment beküldve";

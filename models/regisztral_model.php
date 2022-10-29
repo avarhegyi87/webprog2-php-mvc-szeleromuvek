@@ -21,11 +21,11 @@ class Regisztral_Model {
 										values (0, :csaladi_nev, :utonev, :bejelentkezes, :jelszo, :jogosultsag)";
 						$stmt = $connection->prepare($sqlInsert);
 						$stmt->execute(array(
-							':csaladi_nev'=>$vars['csaladi_nev'],
-							':utonev'=>$vars['utonev'],
-							':bejelentkezes'=>$vars['reg_login'],
-							':jelszo'=>sha1($vars['reg_pw']),
-							':jogosultsag'=>'_1_'
+										   ':csaladi_nev' => $vars['csaladi_nev'],
+										   ':utonev' => $vars['utonev'],
+										   ':bejelentkezes' => $vars['reg_login'],
+										   ':jelszo' => sha1($vars['reg_pw']),
+										   ':jogosultsag' => '_1_'
 									   ));
 						if ($darab = $stmt->rowCount()) {
 							$uj_id = $connection->lastInsertId();

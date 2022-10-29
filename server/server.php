@@ -1,6 +1,6 @@
 <?php
-	require("tables.php");
-	$server = new SoapServer("tables.wsdl");
-	$server->setClass('Tables');
-	$server->handle();
+require("tables.php");
+$server = new SoapServer("tables.wsdl");
+$server->setClass('Tables');
+$server->handle();
 ?>

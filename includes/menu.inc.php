@@ -8,7 +8,7 @@ class Menu {
 		$connection = Database::getConnection();
 		$sqlSelect = "select url, nev, jogosultsag from menu where jogosultsag like :jogosultsag order by sorrend";
 		$stmt = $connection->prepare($sqlSelect);
-		$stmt->execute(array(':jogosultsag'=>$_SESSION['userlevel']));
+		$stmt->execute(array(':jogosultsag' => $_SESSION['userlevel']));
 		while ($menuitem = $stmt->fetch(PDO::FETCH_ASSOC)) {
 			self::$menu[$menuitem['url']] = array($menuitem['nev'], $menuitem['jogosultsag']);
 		}

@@ -12,8 +12,8 @@ class View_Loader {
 			$this->render = $file;
 			$this->selectedItems = explode("_", $viewName);
 		}
-		if(strtolower($viewName) == 'adatlekerdezes_main') {
-			$kliensnev= SERVER_ROOT . 'client/' . strtolower($viewName) . '.php';
+		if (strtolower($viewName) == 'adatlekerdezes_main') {
+			$kliensnev = SERVER_ROOT . 'client/' . strtolower($viewName) . '.php';
 			$this->render = $kliensnev;
 			$this->selectedItems = explode("_", $viewName);
 		}

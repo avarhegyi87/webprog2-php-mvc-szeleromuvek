@@ -20,8 +20,8 @@ class Hirbekuld_Model {
 						$sqlInsert = "insert into hirek(userid, hir) values(:userid, :hir)";
 						$stmt = $connection->prepare($sqlInsert);
 						$stmt->execute(array(
-							'userid'=>$_SESSION['userid'],
-							'hir'=>$vars['ujhir']
+										   'userid' => $_SESSION['userid'],
+										   'hir' => $vars['ujhir']
 									   ));
 						if ($stmt->rowCount()) {
 							$retData['uzenet'] = "Köszönjük a megosztást.";

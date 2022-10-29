@@ -13,7 +13,7 @@ class Hirbekuld_Controller {
 		$retData['hirbekuld-uzenet'] = $hirbekuldData['uzenet'];
 
 		$view = new View_Loader($this->baseName . '_main');
-		foreach($retData as $name => $value)
+		foreach ($retData as $name => $value)
 			$view->assign($name, $value);
 	}
 }

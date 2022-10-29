@@ -1,4 +1,4 @@
 <h2>
-	Cégünkről
+    Cégünkről
 </h2>
 <p>Blabla</p>
