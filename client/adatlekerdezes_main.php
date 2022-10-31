@@ -1,8 +1,7 @@
-<!DOCTYPE HTML>
-<html>
-<link rel="stylesheet" type="text/css" href="<?php echo SITE_ROOT ?>css/main_style.css">
+
 
 <?php
+//Globális változók megadása és az adatbázisból kiolvasó függvények meghívása.
 $client = new SoapClient('http://localhost/feladat/server/tables.wsdl');
 $locations = $client->getlocations();
 $counties = $client->getcounties();
@@ -11,14 +10,14 @@ $len = count($counties->counties);
 $html = "";
 ?>
 
-<body>
-<h2 id="center">Üdvözöljük!</h2>
-<h3 id="center">Ezen az oldalon megtekintheti az adatbázis minden táblájának adatait, SOAP API segítségével.</h3>
 
-<form id="center" name="tableselect" text="Tábla választás" method="POST">
-    <select id="center" name="megye" onchange="javascript:tableselect.submit();">
+<h2 style="width: fit-content; margin-left:auto; margin-right:auto;">Üdvözöljük!</h2>
+<h3 style="width: fit-content; margin-left:auto; margin-right:auto;">Ezen az oldalon megtekintheti az adatbázis három táblájának adatait, SOAP API segítségével.</h3>
 
-        <option value=" ">Válasszon megyét!</option>
+<form style="background-color:transparent; width: fit-content; margin-left:auto; margin-right:auto;" name="tableselect" text="Tábla választás" method="POST">
+    <select style="margin-left:auto; margin-right:auto;" name="megye" required="required" onchange="javascript:tableselect.submit();">
+        <!--Legördülő menü, amiben kiválaszthatjuk a lekérdezni kívánt megyét--->
+        <option value="">Válasszon megyét!</option>
 		<?php
 		foreach ($counties->counties as $county) { ?>
 
@@ -29,7 +28,8 @@ $html = "";
     </select>
 	<?php
 	if (isset($_POST['megye']) && trim($_POST['megye']) != "") { ?>
-    <select id="center" name="hely" onchange="javascript:tableselect.submit();">
+    <!--Amennyiben kiválasztottunk, megjelenik még egy legördülő menü amiben a hozzá tartozó helységek közül választhatunk egyet, amennyiben van az adatbázisban.-->
+    <select style="margin-left:auto; margin-right:auto;" name="hely" required="required" onchange="javascript:tableselect.submit();">
         <option value="">Válasszon helységet!</option>
 		<?php
 		foreach ($locations->locations as $loc) {
@@ -41,25 +41,23 @@ $html = "";
 		}
 		} ?>
     </select>
-    <input type="submit" name="kiir" value="Kiírás">
+    <!--A küldés gomb, amivel liírjuk egy táblázatba a kiválasztásokhoz kapcsolható szílerőműveket és tulajdonságaikat.-->
+    <input style="margin-top:20px;" class="btn btn-outline-primary btn-sm btn-block" type="submit" name="kiir" value="Kiírás">
 	<?php
+    //Ellenőrizzük, hogy választottunk-e értékeket a listákból és hogy a kiir gombot megnyomtuk-e.
 	if (isset($_POST['hely']) && trim($_POST['hely']) != "" && trim($_POST['megye']) != "" && isset($_POST['megye']) && isset($_POST["kiir"])) {
 		?>
-        <div id="center" style="overflow-x:auto;">
-            <table class="table table-sm table-hover">
-
+        <?php foreach ($towers->towers as $tower) {
+			if ($tower['helyszinid'] == $_POST['hely']) { ?>    
+        <div>
+            <table class="table table-sm table-hover" style=" margin-left:auto; margin-right:auto;">
+                <!--Az erőművek kiírása táblázatba.-->
                 <tr>
                     <th scope="col">ID</th>
                     <th scope="col">Darab</th>
                     <th scope="col">Teljesítmény</th>
                     <th scope="col">Kezdeti év</th>
                 </tr>
-            </table>
-        </div>
-		<?php foreach ($towers->towers as $tower) {
-			if ($tower['helyszinid'] == $_POST['hely']) { ?>
-                <div class="table-responsive-sm">
-                    <table class="table table-sm table-hover">
                         <tr>
                             <td><?php echo $tower['id'] ?></td>
                             <td><?php echo $tower['darab'] ?></td>
@@ -78,6 +76,4 @@ $html = "";
 	unset($_POST['hely']); ?>
 
 </form>
-</body>
 
-</html>

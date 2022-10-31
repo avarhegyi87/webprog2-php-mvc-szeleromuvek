@@ -1,9 +1,11 @@
 <?php
+//Konstans változók létrehozása.
 const HOST = 'localhost';
 const DATABASE = 'szeleromuvek';
 const USER = 'root';
 const PASSWORD = '';
 
+//Osztály, amiben található függvény segítségével csatlakozhatunk az adatbátzishoz.
 class Database {
 	private static PDO|bool $connection = FALSE;
 

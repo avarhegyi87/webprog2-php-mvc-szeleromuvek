@@ -1,21 +1,24 @@
 <?php
+//Konstans változól létrehozása, amelyek az adatbázishoz való csazlakozáshoz használatosak.
 const HOST = 'localhost';
 const DATABASE = 'szeleromuvek';
 const USER = 'root';
 const PASSWORD = '';
+//Tables osztály létrehozása.
 class Tables {
 
-
+	//Az adatbázisból a helyszínek lekérdezésére szolgáló függvény.
 	/**
 	 * @return Locations
 	 */
 	public function getlocations() {
-
+		//eredmeny tömb, ami tartalmaz egy hibakódot, ami alapesetben 0, amikor nincs hiba. Egy üzenetet, ami üres string ha nincs hiba és egy tömböt, amiben a kiolvasott adatok találhatóak.
 		$eredmeny = array("errorcode" => 0,
 			"msg" => "",
 			"locations" => array());
 
 		try {
+			//Csatlakozás az adatbázishoz és az adatok lekérdezése, majd egy tömbbe helyezése, amit a függvény visszaad visszatérési értékként.
 			$connection = new PDO('mysql:host=' . HOST . ';dbname=' . DATABASE, USER, PASSWORD,
 								  array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
 
@@ -33,7 +36,7 @@ class Tables {
 		return $eredmeny;
 	}
 
-
+	//Az adatbázisból a megyék lekérdezésére szolgáló függvény. Működése azonos a helyszínek lekérdezésére szolgálóval.
 	/**
 	 * @return Counties
 	 */
@@ -61,7 +64,7 @@ class Tables {
 		return $eredmeny;
 	}
 
-
+	//Az adatbázisból az erőművek lekérdezésére szolgáló függvény. Működése azonos a helyszínek lekérdezésére szolgálóval.
 	/**
 	 * @return Towers
 	 */
@@ -92,50 +95,8 @@ class Tables {
 }
 
 
-class User {
-	/**
-	 * @var int
-	 */
-	public $id;
-
-	/**
-	 * @var string
-	 */
-	public $csaladi_nev;
-
-	/**
-	 * @var string
-	 */
-	public $utonev;
-
-	/**
-	 * @var string
-	 */
-	public $bejelentkezes;
-
-	/**
-	 * @var string
-	 */
-	public $jogosultsag;
-}
-
-class Users {
-	/**
-	 * @var integer
-	 */
-	public $errorcode;
-
-	/**
-	 * @var string
-	 */
-	public $msg;
-
-	/**
-	 * @var User[]
-	 */
-	public $users;
-}
-
+//osztályok, melyek szükségesek a WSDL fájl létrehozásához.
+//Location osztály, amely a helyszín adataihoz tartalmaz nyilvános változókat.
 class Location {
 	/**
 	 * @var int
@@ -153,7 +114,7 @@ class Location {
 	public $megyeid;
 
 }
-
+//Locations osztály, egy hibakódhoz, egy hibaüzenethez és egy Location osztályhoz tartalmasz nyilvános változókat.
 class Locations {
 	/**
 	 * @var integer
@@ -171,6 +132,7 @@ class Locations {
 	public $locations;
 }
 
+//Az alábbi osztályok a fentihez hasonló szerepet töltenek be.
 class County {
 	/**
 	 * @var int

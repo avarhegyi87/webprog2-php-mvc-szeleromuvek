@@ -1,17 +1,20 @@
 <?php
-
+//Osztály létrehozása, amely a bejelentkeztetést végzi.
 class Beleptet_Model {
 	public function get_data($vars): array {
 		$retData['eredmeny'] = "";
 		try {
+			//Csatlakozunk az adatbátishoz, maj beolvassuk a bejelentkezéshez szükséges adatokat a felhasznalok tablabol.
 			$connection = Database::getConnection();
-			$sqlSelect = "select id, csaladi_nev, utonev, jogosultsag from felhasznalok where bejelentkezes=:bejelentkezes and jelszo=:jelszo";
+			$sqlSelect = "select id, csaladi_nev, utonev, bejelentkezes, jogosultsag from felhasznalok where bejelentkezes=:bejelentkezes and jelszo=:jelszo";
 			$stmt = $connection->prepare($sqlSelect);
 			$stmt->execute(array(
 							   ':bejelentkezes' => $vars['login'],
 							   ':jelszo' => sha1($vars['password'])
 						   ));
 			$felhasznalo = $stmt->fetchAll(PDO::FETCH_ASSOC);
+			//Ellenőrizzük, hogy a megadott adatok megtalálhatóak-e az adatbázisban, hogyha nem vagy több felhasználó is azonos néven található, akkor hibaüzenetet ad vissza.
+			///Amennyiben viszont sikeres volt a bejelentkezés, a felhasználó adatait elmentjük  változókba.
 			switch (count($felhasznalo)) {
 				case 0:
 					$retData['eredmeny'] = "ERROR";
@@ -23,6 +26,7 @@ class Beleptet_Model {
 					                      Jó munkát kívánunk rendszerünkkel.<br><br>
 										  Az üzemeltetők";
 					$_SESSION['userid'] = $felhasznalo[0]['id'];
+					$_SESSION['username'] = $felhasznalo[0]['bejelentkezes'];
 					$_SESSION['userlastname'] = $felhasznalo[0]['csaladi_nev'];
 					$_SESSION['userfirstname'] = $felhasznalo[0]['utonev'];
 					$_SESSION['userlevel'] = $felhasznalo[0]['jogosultsag'];

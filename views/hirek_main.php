@@ -1,7 +1,7 @@
-<h2>Hírek</h2>
+<h1 style="max-width: 10%; margin-left:auto; margin-right: auto; font-size:52pt;">Hírek</h2>
 <?php
 if ($_SESSION['userid'] == 0 || !isset($_SESSION['userid'])) {
-	?><h2>A hírek eléréséhez és a kommenteléshez kérjük jelentkezzen be!</h2><?php
+	?><h2 style="max-width: 50%; margin-left:auto; margin-right: auto;">A hírek eléréséhez és a kommenteléshez kérjük jelentkezzen be!</h2><?php
 } else { ?>
     <h2><?= ($viewData['uzenet'] ?? "") ?></h2>
     <h2><?= ($viewData['kommentel-uzenet'] ?? "") ?></h2>
@@ -9,16 +9,17 @@ if ($_SESSION['userid'] == 0 || !isset($_SESSION['userid'])) {
 	<?php
 	foreach ($viewData as $hir) {
 		if (isset($hir['hir'])) { ?>
-            <ul>
-                <li>
-                    <dl>
+        <div class="list-group">
+            <ul class="list-group-item list-group-item-action" style="max-width: 60%; margin-left:auto; margin-right: auto; margin-top:  120px">
+                <li style="max-width: 600px; margin-left:auto; margin-right: auto; padding-top:  40px">
+                    <dl >
                         <dt><em><?php echo $hir['bejelentkezes'] . ' - ' . $hir['datum'] ?></em></dt>
                         <dd><?php echo $hir['hir'] ?></dd>
                     </dl>
                 </li>
 				<?php foreach ($hir['kommentek'] as $komment) { ?>
                     <ul>
-                        <li>
+                        <li style="max-width: 600px; margin-left:auto; margin-right: auto; margin-top:  20px">
                             <dl>
                                 <dt><em><?php echo $komment['bejelentkezes'] . ' - ' . $komment['datum'] ?></em></dt>
                                 <dd><?php echo $komment['komment'] ?></dd>
@@ -26,17 +27,26 @@ if ($_SESSION['userid'] == 0 || !isset($_SESSION['userid'])) {
                         </li>
                     </ul>
 				<?php } ?>
-                <form action="<?php SITE_ROOT ?>kommentel" method="post">
+                <form style="max-width: 600px; margin-left:auto; margin-right: auto; margin-top:  20px" action="<?php SITE_ROOT ?>kommentel" method="post">
                     <textarea name="ujkomment"></textarea>
                     <input name="hirid" type="hidden" value="<?php echo $hir['id'] ?>"/>
-                    <input type="submit" value="Komment küldése">
+                    <input class="btn btn-secondary" type="submit" value="Komment küldése">
                 </form>
             </ul>
+        </div>
 		<?php }
 	} ?>
-    <h2>Új hír beküldése</h2>
-    <form action="<?php SITE_ROOT ?>hirbekuld" method="post">
+    <div class="list-group" style=" margin-top: 50px;">
+    <ul class="list-group-item list-group-item-action" style="max-width: 80%; margin-left:auto; margin-right: auto;">
+    <h2 style="max-width: 50%; margin-left:auto; margin-right: auto;">Új hír beküldése</h2>
+    <form  action="<?php SITE_ROOT ?>hirbekuld" method="post">
+    <li style="max-width: 600px; margin-left:auto; margin-right: auto; margin-top:  40px; list-style-type: none;">
         <textarea name="ujhir"></textarea>
-        <input type="submit" value="Hír beküldése">
+    </li>
+    <li style="max-width: 600px; margin-left:auto; margin-right: auto; margin-top:  10px; list-style-type: none;">
+        <input class="btn btn-secondary" type="submit" value="Hír beküldése">
+        </li>   
     </form>
+    
+    </div>
 <?php } ?>

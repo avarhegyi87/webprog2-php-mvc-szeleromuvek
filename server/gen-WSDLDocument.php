@@ -1,4 +1,5 @@
 <?php
+//A WSDL generátor bemenő adatainak megadására szolgáló fájl.
 //error_reporting(0);
 require 'tables.php';
 require 'WSDLDocument/WSDLDocument.php';

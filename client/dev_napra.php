@@ -1,4 +1,5 @@
 <?php
+//MNB SOAP szolgáltatótól a pénznemek lekérdezése
 function currencies() {
 	$client = new SoapClient("http://www.mnb.hu/arfolyamok.asmx?WSDL");
 	$result = new SimpleXMLElement($client->GetCurrencies()->GetCurrenciesResult);
@@ -8,7 +9,7 @@ function currencies() {
 	}
 	return $stack;
 }
-
+//MNB SOAP szolgáltatótól árfolyamok lekérdezése.
 function exc_rates($start_date, $end_date, $currency) {
 	$stack2 = array();
 	$soapClient = new Soapclient("http://www.mnb.hu/arfolyamok.asmx?singleWsdl");
@@ -17,11 +18,4 @@ function exc_rates($start_date, $end_date, $currency) {
 	$result = $res->GetExchangeRatesResult;
 	return $result;
 }
-
-function date_magic($raw_date) {
-	$sdate = explode("/", $raw_date);
-	return ($sdate[2] . "-" . $sdate[0] . "-" . $sdate[1]);
-
-}
-
 ?>
